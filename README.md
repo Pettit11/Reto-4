@@ -1,4 +1,6 @@
-´´´ 
+# Reto 4
+# Ejercicio de clase 
+```Python
 from math import atan2, degrees, pi
 
 class Point:
@@ -215,5 +217,166 @@ inner_angles = triangle.compute_inner_angles()
 # Output inner angles
 print("\nInner Angles of the Triangle:")
 print(inner_angles)
-Python
-´´´
+```
+# Menu
+```Python
+class MenuItem:
+    def __init__(self, name, price):
+        self.__name = name
+        self.__price = price
+
+    def get_name(self):
+        return self.__name
+
+    def set_name(self, name):
+        self.__name = name
+
+    def get_price(self):
+        return self.__price
+
+    def set_price(self, price):
+        self.__price = price
+
+    def calculate_total_price(self, quantity=1):
+        return self.__price * quantity
+
+
+class ColombianFood(MenuItem):
+    def __init__(self, name, price, typical_ingredients):
+        super().__init__(name, price)
+        self.typical_ingredients = typical_ingredients
+
+
+class BandejaPaisa(ColombianFood):
+    def __init__(self):
+        super().__init__("Bandeja Paisa", 25000, ["Grilled beef", "Chicharrón", "Rice", "Beans", "Avocado", "Egg", "Ripe plantain", "Arepa"])
+
+
+class Ajiaco(ColombianFood):
+    def __init__(self):
+        super().__init__("Ajiaco", 18000, ["Chicken", "Criolla potato", "Cob", "Guascas", "Coriander", "Cream", "Avocado"])
+
+
+class Empanadas(ColombianFood):
+    def __init__(self):
+        super().__init__("Empanadas", 2000, ["Ground beef", "Potato", "Onion", "Chili", "Coriander"])
+
+
+class Arepas(ColombianFood):
+    def __init__(self):
+        super().__init__("Arepas", 3000, ["Corn flour", "Cheese", "Butter"])
+
+
+class Lechona(ColombianFood):
+    def __init__(self):
+        super().__init__("Lechona", 35000, ["Pork", "Rice", "Peas", "Onion", "Garlic", "Cumin"])
+
+
+class AjiGuacamole(ColombianFood):
+    def __init__(self):
+        super().__init__("Aji guacamole", 5000, ["Avocado", "Tomato", "Onion", "Coriander", "Chili"])
+
+
+class Sancocho(ColombianFood):
+    def __init__(self):
+        super().__init__("Sancocho", 20000, ["Chicken", "Cassava", "Plantain", "Cob", "Coriander", "Rice"])
+
+
+class Tamales(ColombianFood):
+    def __init__(self):
+        super().__init__("Tamales", 5000, ["Corn dough", "Chicken", "Pork", "Carrot", "Onion", "Egg", "Olive", "Rice"])
+
+
+class Sudado(ColombianFood):
+    def __init__(self):
+        super().__init__("Sudado de pollo", 18000, ["Chicken", "Tomato", "Onion", "Coriander", "Rice"])
+
+
+class AjiacoSantafereño(ColombianFood):
+    def __init__(self):
+        super().__init__("Ajiaco Santafereño", 20000, ["Chicken", "Criolla potato", "Cob", "Guascas", "Coriander", "Cream", "Avocado"])
+
+
+class Payment:
+    def __init__(self, amount):
+        self.amount = amount
+
+    def pay(self):
+        raise NotImplementedError("Subclasses must implement pay() method")
+
+
+class Card(Payment):
+    def __init__(self, number, cvv, amount):
+        super().__init__(amount)
+        self.number = number
+        self.cvv = cvv
+
+    def pay(self):
+        print(f"Paying {self.amount} with card ending in {self.number[-4:]}")
+
+
+class Cash(Payment):
+    def __init__(self, amount):
+        super().__init__(amount)
+
+    def pay(self):
+        print(f"Paying {self.amount} in cash")
+
+
+class Order:
+    def __init__(self):
+        self.items = []
+        self.payment_method = None
+
+    def add_item(self, item, quantity=1):
+        self.items.append((item, quantity))
+
+    def calculate_total_bill(self):
+        total_bill = 0
+        for item, quantity in self.items:
+            total_bill += item.calculate_total_price(quantity)
+        return total_bill
+
+    def apply_discount(self, discount_percentage):
+        total_bill = self.calculate_total_bill()
+        if len(self.items) >= 3:
+            discount_amount = total_bill * (discount_percentage / 100)
+            total_bill -= discount_amount
+        return total_bill
+
+    def set_payment_method(self, payment_method):
+        self.payment_method = payment_method
+
+    def pay_total_bill(self):
+        total_bill = self.calculate_total_bill()
+        if self.payment_method:
+            self.payment_method.amount = total_bill
+            self.payment_method.pay()
+        else:
+            print("No payment method specified.")
+
+
+# Create an order
+order = Order()
+
+# Add items to the order
+order.add_item(BandejaPaisa(), 1)
+order.add_item(Ajiaco(), 1)
+
+# Calculate the total bill before discount
+total_bill_before_discount = order.calculate_total_bill()
+
+# Apply a 15% discount
+total_bill_after_discount = order.apply_discount(15)
+
+# Display the total bill before and after the discount
+print("Total bill before discount:", total_bill_before_discount)
+print("Total bill after 15% discount:", total_bill_after_discount)
+
+# Select the payment method (cash in this case)
+cash_payment = Cash(total_bill_after_discount)
+order.set_payment_method(cash_payment)
+
+# Pay the bill
+order.pay_total_bill()
+```
